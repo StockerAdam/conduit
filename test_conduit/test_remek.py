@@ -22,7 +22,7 @@ class TestConduit(object):
         self.browser.quit()
 
     def test_cookie(self):
-        cookie_bar = WebDriverWait(self.browser, 6).until(
+        cookie_bar = WebDriverWait(self.browser, 7).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class = "cookie__bar__buttons"]')))
         assert cookie_bar.is_displayed()
 
@@ -30,11 +30,11 @@ class TestConduit(object):
             '//button[@class ="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
         print(len(accept_btn_list_before_click))
 
-        cookie_btn_accept = WebDriverWait(self.browser, 6).until(EC.presence_of_element_located(
+        cookie_btn_ok = WebDriverWait(self.browser, 7).until(EC.presence_of_element_located(
             (By.XPATH, '//button[@class ="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')))
-        cookie_btn_accept.click()
+        cookie_btn_ok.click()
 
-        time.sleep(4)
+        time.sleep(5)
 
         accept_btn_list_after_click = self.browser.find_elements_by_xpath(
             '//button[@class ="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
