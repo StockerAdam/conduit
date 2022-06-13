@@ -7,7 +7,7 @@ class TestConduit(object):
     def setup(self):
         self.browser = webdriver.Chrome(ChromeDriverManager().install())
         self.browser.implicitly_wait(10)
-        URL = 'http://localhost:1667/#/'
+        URL = "http://localhost:1667/"
         self.browser.get(URL)
         self.browser.maximize_window()
 
