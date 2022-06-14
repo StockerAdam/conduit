@@ -41,4 +41,5 @@ class TestConduit(object):
 
         print(len(accept_btn_list_after_click))
 
+
         assert not len(accept_btn_list_after_click)
