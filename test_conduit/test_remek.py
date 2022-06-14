@@ -10,6 +10,7 @@ from selenium.webdriver.chrome.options import Options
 
 class TestConduit(object):
 
+
     def setup(self):
         browser_options = Options()
         browser_options.headless = True
@@ -40,6 +41,5 @@ class TestConduit(object):
             '//button[@class ="cookie__bar__buttons__button cookie__bar__buttons__button--accept"]')
 
         print(len(accept_btn_list_after_click))
-
 
         assert not len(accept_btn_list_after_click)
