@@ -6,7 +6,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 
-
+from functions import *
+from test_data import *
 
 class TestConduit(object):
 
@@ -43,3 +44,18 @@ class TestConduit(object):
         print(len(accept_btn_list_after_click))
 
         assert not len(accept_btn_list_after_click)
+
+    def test_registration_invalid(self):
+        registration(self.browser, user_invalid["name"], user_invalid["email"], user_invalid["password"])
+
+        time.sleep(2)
+
+        result_message = self.browser.find_element_by_xpath('//div[@class="swal-title"]')
+        result_message2 = self.browser.find_element_by_xpath('//div[@class="swal-text"]')
+
+        assert result_message.text == sys_messages["invalid_reg"]
+        assert result_message2.text == sys_messages["invalid_email"]
+
+
+
+
