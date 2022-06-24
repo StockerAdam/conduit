@@ -23,6 +23,7 @@ class TestConduit(object):
     def teardown(self):
         self.browser.quit()
 
+
     def test_cookie(self):
         cookie_bar = WebDriverWait(self.browser, 7).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class = "cookie__bar__buttons"]')))
@@ -45,6 +46,7 @@ class TestConduit(object):
 
         assert not len(accept_btn_list_after_click)
 
+
     def test_registration_invalid(self):
         registration(self.browser, user_invalid["name"], user_invalid["email"], user_invalid["password"])
 
@@ -56,6 +58,15 @@ class TestConduit(object):
         assert result_message.text == sys_messages["invalid_reg"]
         assert result_message2.text == sys_messages["invalid_email"]
 
+
+    def test_sign_in(self):
+        sign_in(self.browser, user_valid["email"], user_valid["password"])
+
+        time.sleep(2)
+
+        user_profile = self.browser.find_elements_by_xpath('//a[@class="nav-link"]')[2]
+
+        assert user_profile.text == user_valid['name']
 
 
 
