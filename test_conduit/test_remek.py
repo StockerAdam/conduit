@@ -69,6 +69,15 @@ class TestConduit(object):
         assert user_profile.text == user_valid['name']
 
 
+    def test_list_popular_tags(self):
+        popular_tags = self.browser.find_elements_by_xpath('//a[@class="tag-pill tag-default"]')
+
+        list_of_pop_tags = []
+        for i, k in enumerate(popular_tags):
+            list_of_pop_tags.append(f'{i + 1}. popular tag: {k.text}')
+        assert len(list_of_pop_tags) == len(popular_tags)
+
+
     def test_logout(self):
         TestConduit.test_sign_in(self)
         logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
