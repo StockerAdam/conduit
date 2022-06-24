@@ -69,4 +69,14 @@ class TestConduit(object):
         assert user_profile.text == user_valid['name']
 
 
+    def test_logout(self):
+        TestConduit.test_sign_in(self)
+        logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
+
+        logout_btn.click()
+
+        sign_in_menu = self.browser.find_elements_by_xpath('//a[@href="#/login"]')[0]
+        assert sign_in_menu.text == "Sign in"
+
+
 
