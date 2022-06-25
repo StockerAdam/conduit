@@ -9,9 +9,10 @@ from selenium.webdriver.chrome.options import Options
 from functions import *
 from test_data import *
 
+
 class TestConduit(object):
 
-
+    # •  •  •  •  • Több oldalas lista bejárása • Új adat bevitel  • Ismételt és sorozatos adatbevitel adatforrásból  • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
     def setup(self):
         browser_options = Options()
         browser_options.headless = True
@@ -23,7 +24,7 @@ class TestConduit(object):
     def teardown(self):
         self.browser.quit()
 
-
+    #Adatkezelési nyilatkozat használata
     def test_cookie(self):
         cookie_bar = WebDriverWait(self.browser, 7).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class = "cookie__bar__buttons"]')))
@@ -46,7 +47,7 @@ class TestConduit(object):
 
         assert not len(accept_btn_list_after_click)
 
-
+    #Regisztráció helytelen adatokkal
     def test_registration_invalid(self):
         registration(self.browser, user_invalid["name"], user_invalid["email"], user_invalid["password"])
 
@@ -58,12 +59,13 @@ class TestConduit(object):
         assert result_message.text == sys_messages["invalid_reg"]
         assert result_message2.text == sys_messages["invalid_email"]
 
+    ##Regisztráció megfelelő (valid) adatokkal
     def test_registration_valid(self):
         registration(self.browser, user_valid["name"], user_valid["email"], user_valid["password"])
 
         time.sleep(2)
 
-
+    #Bejelentkezés valid, regisztrált adatokkal
     def test_sign_in(self):
         sign_in(self.browser, user_valid["email"], user_valid["password"])
 
@@ -73,7 +75,7 @@ class TestConduit(object):
 
         assert user_profile.text == user_valid['name']
 
-
+    #Adatok listázása
     def test_list_popular_tags(self):
         popular_tags = self.browser.find_elements_by_xpath('//a[@class="tag-pill tag-default"]')
 
@@ -82,7 +84,7 @@ class TestConduit(object):
             list_of_pop_tags.append(f'{i + 1}. popular tag: {k.text}')
         assert len(list_of_pop_tags) == len(popular_tags)
 
-
+    #Kijelentkezés
     def test_logout(self):
         TestConduit.test_sign_in(self)
         logout_btn = self.browser.find_element_by_xpath('//a[@active-class="active"]')
@@ -91,6 +93,3 @@ class TestConduit(object):
 
         sign_in_menu = self.browser.find_elements_by_xpath('//a[@href="#/login"]')[0]
         assert sign_in_menu.text == "Sign in"
-
-
-
