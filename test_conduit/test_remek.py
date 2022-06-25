@@ -1,6 +1,7 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import csv
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -101,8 +102,19 @@ class TestConduit(object):
 
         time.sleep(2)
 
-        created_body = self.browser.find_element_by_xpath('//p')
-        assert created_body.text == new_article['body']
+        article_body = self.browser.find_element_by_xpath('//p')
+        assert article_body.text == new_article['body']
+
+    #Ismételt és sorozatos adatbevitel adatforrásból
+    def test_import_articles(self):
+        TestConduit.test_sign_in(self)
+        with open('articles.csv', 'r') as file:
+            csv_reader = csv.reader(file, delimiter=':')
+            for row in csv_reader:
+                create_new_article(self.browser, row[0], row[1], row[2], row[3])
+                time.sleep(2)
+                article_body = self.browser.find_element_by_xpath('//p')
+                assert article_body.text == row[2]
 
     #Kijelentkezés
     def test_logout(self):
