@@ -108,7 +108,7 @@ class TestConduit(object):
     # 7. Ismételt és sorozatos adatbevitel adatforrásból
     def test_import_articles(self):
         TestConduit.test_sign_in(self)
-        with open('/conduit/test_conduit/articles.csv', 'r') as file:
+        with open('conduit/test_conduit/articles.csv', 'r') as file:
             csv_reader = csv.reader(file, delimiter=':')
             for row in csv_reader:
                 create_new_article(self.browser, row[0], row[1], row[2], row[3])
@@ -164,6 +164,24 @@ class TestConduit(object):
         comments_list_after = self.browser.find_elements_by_xpath('//div[@class="card"]')
 
         assert len(comments_list_after) == len(comments_list_before)
+
+        settings_btn = self.browser.find_element_by_xpath('//a[@href="#/settings"]')
+        settings_btn.click()
+
+        time.sleep(1)
+
+        input_username = self.browser.find_element_by_xpath('//input[@placeholder = "Your username"]')
+        input_username.clear()
+        input_username.send_keys("Entertester")
+
+        update_settings_btn = self.browser.find_element_by_xpath(
+            '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
+        update_settings_btn.click()
+
+        time.sleep(1)
+
+        ok_btn = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+        ok_btn.click()
 
     #Kijelentkezés
     def test_logout(self):
