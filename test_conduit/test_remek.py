@@ -116,6 +116,55 @@ class TestConduit(object):
                 article_body = self.browser.find_element_by_xpath('//p')
                 assert article_body.text == row[2]
 
+    # 8. Adat vagy adatok törlése (MÓDOSÍTJA A USERNAMET!!!!)
+    def test_delete_article(self):
+        TestConduit.test_sign_in(self)
+        time.sleep(1)
+
+        comments_list_before = self.browser.find_elements_by_xpath('//div[@class="card"]')
+
+        author = self.browser.find_element_by_xpath(
+            '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/a').text
+
+        settings_btn = self.browser.find_element_by_xpath('//a[@href="#/settings"]')
+        settings_btn.click()
+
+        time.sleep(1)
+
+        input_username = self.browser.find_element_by_xpath('//input[@placeholder = "Your username"]')
+        input_username.clear()
+        input_username.send_keys(author)
+
+        time.sleep(1)
+
+        update_settings_btn = self.browser.find_element_by_xpath('//button[@class="btn btn-lg btn-primary pull-xs-right"]')
+        update_settings_btn.click()
+
+        time.sleep(1)
+
+        ok_btn = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+        ok_btn.click()
+
+        time.sleep(1)
+
+        home = self.browser.find_element_by_xpath('//*[@id="app"]/nav/div/ul/li[1]/a')
+        home.click()
+
+        time.sleep(1)
+
+        first_article2 = self.browser.find_element_by_xpath(
+            '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/a/h1')
+        first_article2.click()
+
+        time.sleep(1)
+
+        delete_btn = self.browser.find_element_by_xpath('//button[@class="btn btn-outline-danger btn-sm"]')
+        delete_btn.click()
+
+        comments_list_after = self.browser.find_elements_by_xpath('//div[@class="card"]')
+
+        assert len(comments_list_after) == len(comments_list_before)
+
     #Kijelentkezés
     def test_logout(self):
         TestConduit.test_sign_in(self)
