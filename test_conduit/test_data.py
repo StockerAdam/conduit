@@ -16,3 +16,12 @@ sys_messages = {
     "valid_reg": "Welcome!",
     "Valid_reg_alt": "Your registration was successful!"
 }
+
+new_article = {
+    "title": "Rozsomák",
+    "about": "Állathatározó",
+    "body": "A rozsomák (Gulo gulo) az emlősök (Mammalia) osztályának ragadozók (Carnivora) rendjébe, "
+            "ezen belül a menyétfélék (Mustelidae) családjába és a rozsomákformák (Guloninae) alcsaládjába tartozó "
+            "legnagyobb testű faj.",
+    "tag": "wolverine"
+}

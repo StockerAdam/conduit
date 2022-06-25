@@ -12,7 +12,7 @@ from test_data import *
 
 class TestConduit(object):
 
-    # •  •  •  •  •  • Új adat bevitel  • Ismételt és sorozatos adatbevitel adatforrásból  • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
+    # •  •  •  •  •  •   • Ismételt és sorozatos adatbevitel adatforrásból  • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
     def setup(self):
         browser_options = Options()
         browser_options.headless = True
@@ -93,6 +93,16 @@ class TestConduit(object):
             time.sleep(2)
             current_page = self.browser.find_element_by_xpath('//li[@class="page-item active"]')
             assert page.text == current_page.text
+
+    #Új adat (cikk) bevitel
+    def test_adding_new_input(self):
+        TestConduit.test_sign_in(self)
+        create_new_article(self.browser, new_article['title'], new_article['about'], new_article['body'], new_article['tag'])
+
+        time.sleep(2)
+
+        created_body = self.browser.find_element_by_xpath('//p')
+        assert created_body.text == new_article['body']
 
     #Kijelentkezés
     def test_logout(self):
