@@ -58,6 +58,11 @@ class TestConduit(object):
         assert result_message.text == sys_messages["invalid_reg"]
         assert result_message2.text == sys_messages["invalid_email"]
 
+    def test_registration_valid(self):
+        registration(self.browser, user_valid["name"], user_valid["email"], user_valid["password"])
+
+        time.sleep(2)
+
 
     def test_sign_in(self):
         sign_in(self.browser, user_valid["email"], user_valid["password"])
