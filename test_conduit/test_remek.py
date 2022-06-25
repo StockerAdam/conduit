@@ -13,7 +13,7 @@ from test_data import *
 
 class TestConduit(object):
 
-    # •  •  •  •  •  •   • Ismételt és sorozatos adatbevitel adatforrásból  • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
+    # • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
     def setup(self):
         browser_options = Options()
         browser_options.headless = True
@@ -25,7 +25,7 @@ class TestConduit(object):
     def teardown(self):
         self.browser.quit()
 
-    #Adatkezelési nyilatkozat használata
+    # 1.Adatkezelési nyilatkozat használata
     def test_cookie(self):
         cookie_bar = WebDriverWait(self.browser, 7).until(
             EC.presence_of_element_located((By.XPATH, '//div[@class = "cookie__bar__buttons"]')))
@@ -48,7 +48,7 @@ class TestConduit(object):
 
         assert not len(accept_btn_list_after_click)
 
-    #Regisztráció helytelen adatokkal
+    # 2.a Regisztráció helytelen adatokkal
     def test_registration_invalid(self):
         registration(self.browser, user_invalid["name"], user_invalid["email"], user_invalid["password"])
 
@@ -60,13 +60,13 @@ class TestConduit(object):
         assert result_message.text == sys_messages["invalid_reg"]
         assert result_message2.text == sys_messages["invalid_email"]
 
-    ##Regisztráció megfelelő (valid) adatokkal
+    # 2.b Regisztráció megfelelő (valid) adatokkal
     def test_registration_valid(self):
         registration(self.browser, user_valid["name"], user_valid["email"], user_valid["password"])
 
         time.sleep(2)
 
-    #Bejelentkezés valid, regisztrált adatokkal
+    # 3. Bejelentkezés valid, regisztrált adatokkal
     def test_sign_in(self):
         sign_in(self.browser, user_valid["email"], user_valid["password"])
 
@@ -76,7 +76,7 @@ class TestConduit(object):
 
         assert user_profile.text == user_valid['name']
 
-    #Adatok listázása
+    # 4. Adatok listázása
     def test_list_popular_tags(self):
         popular_tags = self.browser.find_elements_by_xpath('//a[@class="tag-pill tag-default"]')
 
@@ -85,7 +85,7 @@ class TestConduit(object):
             list_of_pop_tags.append(f'{i + 1}. popular tag: {k.text}')
         assert len(list_of_pop_tags) == len(popular_tags)
 
-    #Több oldalas lista bejárása
+    # 5. Több oldalas lista bejárása
     def test_page_navigation(self):
         TestConduit.test_sign_in(self)
         pages = self.browser.find_elements_by_xpath('//a[@class="page-link"]')
@@ -95,7 +95,7 @@ class TestConduit(object):
             current_page = self.browser.find_element_by_xpath('//li[@class="page-item active"]')
             assert page.text == current_page.text
 
-    #Új adat (cikk) bevitel
+    # 6. Új adat (cikk) bevitel
     def test_adding_new_input(self):
         TestConduit.test_sign_in(self)
         create_new_article(self.browser, new_article['title'], new_article['about'], new_article['body'], new_article['tag'])
@@ -105,10 +105,10 @@ class TestConduit(object):
         article_body = self.browser.find_element_by_xpath('//p')
         assert article_body.text == new_article['body']
 
-    #Ismételt és sorozatos adatbevitel adatforrásból
+    # 7. Ismételt és sorozatos adatbevitel adatforrásból
     def test_import_articles(self):
         TestConduit.test_sign_in(self)
-        with open('articles.csv', 'r') as file:
+        with open('/conduit/test_conduit/articles.csv', 'r') as file:
             csv_reader = csv.reader(file, delimiter=':')
             for row in csv_reader:
                 create_new_article(self.browser, row[0], row[1], row[2], row[3])
