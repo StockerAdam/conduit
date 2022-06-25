@@ -12,7 +12,7 @@ from test_data import *
 
 class TestConduit(object):
 
-    # •  •  •  •  • Több oldalas lista bejárása • Új adat bevitel  • Ismételt és sorozatos adatbevitel adatforrásból  • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
+    # •  •  •  •  •  • Új adat bevitel  • Ismételt és sorozatos adatbevitel adatforrásból  • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
     def setup(self):
         browser_options = Options()
         browser_options.headless = True
@@ -83,6 +83,16 @@ class TestConduit(object):
         for i, k in enumerate(popular_tags):
             list_of_pop_tags.append(f'{i + 1}. popular tag: {k.text}')
         assert len(list_of_pop_tags) == len(popular_tags)
+
+    #Több oldalas lista bejárása
+    def test_page_navigation(self):
+        TestConduit.test_sign_in(self)
+        pages = self.browser.find_elements_by_xpath('//a[@class="page-link"]')
+        for page in pages:
+            page.click()
+            time.sleep(2)
+            current_page = self.browser.find_element_by_xpath('//li[@class="page-item active"]')
+            assert page.text == current_page.text
 
     #Kijelentkezés
     def test_logout(self):

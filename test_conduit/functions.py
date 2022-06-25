@@ -19,3 +19,4 @@ def sign_in(browser, email, password):
     password_input.send_keys(password)
     sign_in_btn = browser.find_element_by_xpath('//button[@class="btn btn-lg btn-primary pull-xs-right"]')
     sign_in_btn.click()
+
