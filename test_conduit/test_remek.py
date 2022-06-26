@@ -122,33 +122,29 @@ class TestConduit(object):
         time.sleep(1)
 
         comments_list_before = self.browser.find_elements_by_xpath('//div[@class="card"]')
-
         author = self.browser.find_element_by_xpath(
             '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/a').text
 
         change_name(self.browser, author)
-
         assert self.browser.find_element_by_xpath('//div[@class="swal-title"]').text == 'Update successful!'
-
         time.sleep(1)
 
         home = self.browser.find_element_by_xpath('//*[@id="app"]/nav/div/ul/li[1]/a')
         home.click()
-
         time.sleep(1)
 
         first_article = self.browser.find_element_by_xpath(
             '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/a/h1')
         first_article.click()
-
         time.sleep(1)
 
         delete_btn = self.browser.find_element_by_xpath('//button[@class="btn btn-outline-danger btn-sm"]')
         delete_btn.click()
 
         comments_list_after = self.browser.find_elements_by_xpath('//div[@class="card"]')
-
         assert len(comments_list_after) == len(comments_list_before)
+
+        change_name(self.browser, "Entertester")
 
     # 9. Meglévő adat módosítás
     def test_name_change(self):
