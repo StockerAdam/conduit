@@ -13,7 +13,7 @@ from test_data import *
 
 class TestConduit(object):
 
-    # • Meglévő adat módosítás • Adat vagy adatok törlése • Adatok lementése felületről •
+    # •  •  • Adatok lementése felületről •
     def setup(self):
         browser_options = Options()
         browser_options.headless = True
@@ -108,7 +108,7 @@ class TestConduit(object):
     # 7. Ismételt és sorozatos adatbevitel adatforrásból
     def test_import_articles(self):
         TestConduit.test_sign_in(self)
-        with open('conduit/test_conduit/articles.csv', 'r') as file:
+        with open('test_conduit/articles.csv', 'r') as file:
             csv_reader = csv.reader(file, delimiter=':')
             for row in csv_reader:
                 create_new_article(self.browser, row[0], row[1], row[2], row[3])
@@ -126,24 +126,9 @@ class TestConduit(object):
         author = self.browser.find_element_by_xpath(
             '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/a').text
 
-        settings_btn = self.browser.find_element_by_xpath('//a[@href="#/settings"]')
-        settings_btn.click()
+        change_name(self.browser, author)
 
-        time.sleep(1)
-
-        input_username = self.browser.find_element_by_xpath('//input[@placeholder = "Your username"]')
-        input_username.clear()
-        input_username.send_keys(author)
-
-        time.sleep(1)
-
-        update_settings_btn = self.browser.find_element_by_xpath('//button[@class="btn btn-lg btn-primary pull-xs-right"]')
-        update_settings_btn.click()
-
-        time.sleep(1)
-
-        ok_btn = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
-        ok_btn.click()
+        assert self.browser.find_element_by_xpath('//div[@class="swal-title"]').text == 'Update successful!'
 
         time.sleep(1)
 
@@ -152,9 +137,9 @@ class TestConduit(object):
 
         time.sleep(1)
 
-        first_article2 = self.browser.find_element_by_xpath(
+        first_article = self.browser.find_element_by_xpath(
             '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/a/h1')
-        first_article2.click()
+        first_article.click()
 
         time.sleep(1)
 
@@ -165,23 +150,12 @@ class TestConduit(object):
 
         assert len(comments_list_after) == len(comments_list_before)
 
-        settings_btn = self.browser.find_element_by_xpath('//a[@href="#/settings"]')
-        settings_btn.click()
+    # 9. Meglévő adat módosítás
+    def test_name_change(self):
+        TestConduit.test_sign_in(self)
+        change_name(self.browser, "Entertester")
 
-        time.sleep(1)
-
-        input_username = self.browser.find_element_by_xpath('//input[@placeholder = "Your username"]')
-        input_username.clear()
-        input_username.send_keys("Entertester")
-
-        update_settings_btn = self.browser.find_element_by_xpath(
-            '//button[@class="btn btn-lg btn-primary pull-xs-right"]')
-        update_settings_btn.click()
-
-        time.sleep(1)
-
-        ok_btn = self.browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
-        ok_btn.click()
+        assert self.browser.find_element_by_xpath('//div[@class="swal-title"]').text == 'Update successful!'
 
     #Kijelentkezés
     def test_logout(self):

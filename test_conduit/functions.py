@@ -44,3 +44,23 @@ def create_new_article(browser, title, about, body, tag):
 
     create_article_btn = browser.find_element_by_xpath('//button[@type="submit"]')
     create_article_btn.click()
+
+def change_name(browser, new_name):
+    settings_btn = browser.find_element_by_xpath('//a[@href="#/settings"]')
+    settings_btn.click()
+
+    time.sleep(1)
+
+    input_username = browser.find_element_by_xpath('//input[@placeholder = "Your username"]')
+    input_username.clear()
+    input_username.send_keys(new_name)
+
+    time.sleep(1)
+
+    update_settings_btn = browser.find_element_by_xpath('//button[@class="btn btn-lg btn-primary pull-xs-right"]')
+    update_settings_btn.click()
+
+    time.sleep(1)
+
+    ok_btn = browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+    ok_btn.click()
