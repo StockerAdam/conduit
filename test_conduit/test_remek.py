@@ -153,7 +153,7 @@ class TestConduit(object):
         TestConduit.test_sign_in(self)
         time.sleep(1)
 
-        comments_list_before = self.browser.find_elements_by_xpath('//div[@class="card"]')
+        comments_list_before = self.browser.find_elements_by_xpath('//h1')
         author = self.browser.find_element_by_xpath(
             '//*[@id="app"]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/a').text
 
@@ -173,8 +173,9 @@ class TestConduit(object):
         delete_btn = self.browser.find_element_by_xpath('//button[@class="btn btn-outline-danger btn-sm"]')
         delete_btn.click()
 
-        comments_list_after = self.browser.find_elements_by_xpath('//div[@class="card"]')
-        assert len(comments_list_after) == len(comments_list_before)
+        time.sleep(2)
+        comments_list_after = self.browser.find_elements_by_xpath('//h1')
+        assert len(comments_list_before)-1 == len(comments_list_after)
 
         change_name(self.browser, "Entertester")
 

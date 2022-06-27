@@ -63,4 +63,5 @@ def change_name(browser, new_name):
     time.sleep(1)
 
     ok_btn = browser.find_element_by_xpath('//button[@class="swal-button swal-button--confirm"]')
+    time.sleep(1)
     ok_btn.click()
