@@ -179,10 +179,13 @@ class TestConduit(object):
 
         change_name(self.browser, "Entertester")
 
-    # itt változtassunk egy másik névre + assert
+
     # 10. Meglévő adat módosítás: Megváltoztatjuk a profil nevünket, majd ellenőrizzük az erről kapott üzenetet.
     def test_name_change(self):
         TestConduit.test_sign_in(self)
+
+        change_name(self.browser, "Adam")
+
         change_name(self.browser, "Entertester")
 
         assert self.browser.find_element_by_xpath('//div[@class="swal-title"]').text == 'Update successful!'
