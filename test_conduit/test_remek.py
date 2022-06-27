@@ -63,8 +63,8 @@ class TestConduit(object):
         assert result_message2.text == sys_messages["invalid_email"]
 
 
-    # 2.b Regisztráció megfelelő (valid) adatokkal: Regisztráció valid adatokkal. Ellenőrzés itt külön nincs,
-    # mert a folyamat csak egyszer végrehajtható, így ez kiegészítése a regisztrációról szóló esetnek.
+    # 2.b Regisztráció megfelelő (valid) adatokkal: Regisztráció valid adatokkal. Ellenőrzésként megnézzük
+    # a kapott rendszerüzenet szövegét.
     def test_registration_valid(self):
         registration(self.browser, user_valid["name"], user_valid["email"], user_valid["password"])
 
@@ -180,11 +180,14 @@ class TestConduit(object):
         change_name(self.browser, "Entertester")
 
 
-    # 10. Meglévő adat módosítás: Megváltoztatjuk a profil nevünket, majd ellenőrizzük az erről kapott üzenetet.
+    # 10. Meglévő adat módosítás: Megváltoztatjuk a profil nevünket, majd visszaváltoztatjuk.
+    # Egyenként ellenőrizzük a változtatás sikerességéről kapott üzenetet.
     def test_name_change(self):
         TestConduit.test_sign_in(self)
 
         change_name(self.browser, "Adam")
+
+        assert self.browser.find_element_by_xpath('//div[@class="swal-title"]').text == 'Update successful!'
 
         change_name(self.browser, "Entertester")
 
