@@ -68,6 +68,7 @@ class TestConduit(object):
     def test_registration_valid(self):
         registration(self.browser, user_valid["name"], user_valid["email"], user_valid["password"])
 
+
         time.sleep(2)
 
         assert self.browser.find_element_by_xpath('//div[@class="swal-title"]').text == 'Welcome!'
